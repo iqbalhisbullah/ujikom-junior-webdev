@@ -6,7 +6,6 @@
 </head>
 
 <body>
-
     <!-- ======= Header ======= -->
     @include('dashboard.header')
     <!-- End Header -->
@@ -16,14 +15,12 @@
     <!-- End Sidebar-->
 
     <!-- Page Content  -->
-    <div id="content-page" class="content-page">
-        <div class="container-fluid">
-            <div class="row">
-                @yield('content')
-            </div>
-        </div>
-    </div>
-    <!-- Wrapper END -->
+    <main id="main" class="main">
+        <section class="section dashboard">
+            @yield('content')
+        </section>
+
+    </main><!-- End #main -->
     @include('dashboard._foot')
 
 

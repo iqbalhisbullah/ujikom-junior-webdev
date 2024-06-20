@@ -1,27 +1,26 @@
+<!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
-
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " href="index.html">
+            <a class="nav-link {{ request()->routeIs('dashboard') ? '' : 'collapsed' }}" href="{{ route('dashboard') }}">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
-        </li><!-- End Dashboard Nav -->
+        </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-faq.html">
+            <a class="nav-link {{ request()->routeIs('pegawai') ? '' : 'collapsed' }}" href="{{ route('pegawai') }}">
                 <i class="bi bi-journal-text"></i>
-                <span>Pegawai</span>
+                <span>Employee</span>
             </a>
-        </li><!-- End Pegawai Page Nav -->
+        </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="users-profile.html">
+            <a class="nav-link {{ request()->routeIs('profilee') ? '' : 'collapsed' }}" href="{{ route('profilee') }}">
                 <i class="bi bi-person"></i>
                 <span>Profile</span>
             </a>
-        </li><!-- End Profile Page Nav -->
+        </li>
     </ul>
-
-</aside>
+</aside><!-- End Sidebar-->
