@@ -4,12 +4,16 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('landing');
+    return view('welcome');
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('layouts.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/pegawai', function () {
+    return view('pages.pegawai');
+})->middleware(['auth', 'verified'])->name('pegawai');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
