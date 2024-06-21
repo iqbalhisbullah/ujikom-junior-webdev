@@ -10,7 +10,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('pegawai') ? '' : 'collapsed' }}" href="{{ route('pegawai') }}">
+            <a class="nav-link {{ request()->routeIs('employee') ? '' : 'collapsed' }}" href="{{ route('employee') }}">
                 <i class="bi bi-journal-text"></i>
                 <span>Employee</span>
             </a>

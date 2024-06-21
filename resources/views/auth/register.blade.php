@@ -24,7 +24,7 @@
                                     <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
                                     <p class="text-center small">Enter your personal details to create account</p>
                                 </div>
-
+                                @include('dashboard.alert')
                                 <form class="row g-3 needs-validation" action="{{ route('register') }}" method="POST" novalidate>
                                     @csrf
                                     <div class="col-12">
