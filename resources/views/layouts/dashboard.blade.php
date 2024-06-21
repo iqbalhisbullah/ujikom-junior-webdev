@@ -23,7 +23,7 @@
     </main><!-- End #main -->
     @include('dashboard._foot')
 
-
+    @stack('scripts')
 </body>
 
 </html>

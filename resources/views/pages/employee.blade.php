@@ -39,7 +39,7 @@
                                     data-placement="top" title="" data-original-title="Edit" href="#">
                                     <i class="ri-pencil-line"></i></a>
 
-                                <a onclick="deleteemployee('{{ $employee->id }}')" data-toggle="tooltip"
+                                <a onclick="deleteEmployee('{{ $employee->id }}')" data-toggle="tooltip"
                                     data-placement="top" title="" data-original-title="Delete" href="#"><i
                                         class="ri-delete-bin-line"></i></a>
                             </div>
@@ -54,12 +54,12 @@
 
 <div class="card-body">
     <!-- Basic Modal -->
-
-    <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true" style="display: none;">
+    <div class="modal fade" id="basicModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true"
+        style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Employee</h5>
+                    <h5 class="modal-title" id="addModalLabel">Add Employee</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -87,16 +87,55 @@
                             <label for="addAddress">Address</label>
                             <input required type="address" class="form-control" id="addAddress" name="address">
                         </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="createEmployee()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div><!-- End Basic Modal-->
+
+    <!-- Edit Modal-->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true"
+        style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Employee</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        <div class="form-group">
+                            <label for="editName">Nama</label>
+                            <input required type="text" class="form-control" id="editName" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="editPosition">Position</label>
+                            <input required type="position" class="form-control" id="editPosition" name="position">
+                        </div>
 
                         <div class="form-group">
-                            <label for="addStartdate">Start date</label>
-                            <input required type="startdate" class="form-control" id="addAStartdate" name="startdate">
+                            <label for="editPhoneNumber">Phone Number</label>
+                            <input required type="text" class="form-control" id="editPhoneNumber" name="phone_number">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editEmail">Email</label>
+                            <input required type="email" class="form-control" id="editEmail" name="email">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editAddress">Address</label>
+                            <input required type="address" class="form-control" id="editAddress" name="address">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-primary" onclick="editEmployee()">Submit</button>
                 </div>
             </div>
         </div>
@@ -104,10 +143,195 @@
 
 </div>
 
-
-
-
-
-
-
 @endsection
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        let employeeId = null;
+
+            // saat buka modal addModal kosongkan form, hapus class is-invalid dan invalid-feedback
+            $('#addModal').on('show.bs.modal', function(e) {
+                $('#addForm').trigger('reset');
+                $('#addForm input').removeClass('is-invalid');
+                $('#addForm .invalid-feedback').remove();
+            });
+
+            $('#editModal').on('show.bs.modal', function(e) {
+                $('#editForm input').removeClass('is-invalid');
+                $('#editForm .invalid-feedback').remove();
+            });
+
+            function createEmployee() {
+                const url = "{{ route('api.employees.store') }}";
+
+                // ambil form data
+                let data = {
+                    name: $('#addName').val(),
+                    address: $('#addAddress').val(),
+                    email: $('#addEmail').val(),
+                    phone_number: $('#addPhoneNumber').val(),
+                    position: $('#addPosition').val(),
+                };
+
+                // kirim data ke server POST /employees
+                $.post(url, data)
+                    .done((response) => {
+                        // tampilkan pesan sukses
+                        toastr.success(response.message, 'Sukses');
+
+                        // reload halaman setelah 3 detik
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    })
+                    .fail((error) => {
+                        // ambil response error
+                        let response = error.responseJSON;
+
+                        // tampilkan pesan error
+                        toastr.error(response.message, 'Error');
+
+                        // tampilkan error validation
+                        if (response.errors) {
+                            // loop object errors
+                            for (const error in response.errors) {
+                                // cari input name yang error pada #addForm
+                                let input = $(`#addForm input[name="${error}"]`);
+
+                                // tambahkan class is-invalid pada input
+                                input.addClass('is-invalid');
+
+                                // buat elemen class="invalid-feedback"
+                                let feedbackElement = `<div class="invalid-feedback">`;
+                                feedbackElement += `<ul class="list-unstyled">`;
+                                response.errors[error].forEach((message) => {
+                                    feedbackElement += `<li>${message}</li>`;
+                                });
+                                feedbackElement += `</ul>`;
+                                feedbackElement += `</div>`;
+
+                                // tambahkan class invalid-feedback setelah input
+                                input.after(feedbackElement);
+                            }
+                        }
+                    });
+            }
+
+            function editEmployee() {
+                let url = "{{ route('api.employees.update', ':employeeId') }}";
+                url = url.replace(':employeeId', employeeId);
+
+                // ambil form data
+                let data = {
+                    name: $('#editName').val(),
+                    address: $('#editAddress').val(),
+                    email: $('#editEmail').val(),
+                    phone_number: $('#editPhoneNumber').val(),
+                    position: $('#editPosition').val(),
+                    _method: 'PUT'
+                };
+
+                // kirim data ke server POST /employees
+                $.post(url, data)
+                    .done((response) => {
+                        // tampilkan pesan sukses
+                        toastr.success(response.message, 'Sukses');
+
+                        // reload halaman setelah 3 detik
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    })
+                    .fail((error) => {
+                        // ambil response error
+                        let response = error.responseJSON;
+
+                        // tampilkan pesan error
+                        toastr.error(response.message, 'Error');
+
+                        // tampilkan error validation
+                        if (response.errors) {
+                            // loop object errors
+                            for (const error in response.errors) {
+                                // cari input name yang error pada #editForm
+                                let input = $(`#editForm input[name="${error}"]`);
+
+                                // tambahkan class is-invalid pada input
+                                input.addClass('is-invalid');
+
+                                // buat elemen class="invalid-feedback"
+                                let feedbackElement = `<div class="invalid-feedback">`;
+                                feedbackElement += `<ul class="list-unstyled">`;
+                                response.errors[error].forEach((message) => {
+                                    feedbackElement += `<li>${message}</li>`;
+                                });
+                                feedbackElement += `</ul>`;
+                                feedbackElement += `</div>`;
+
+                                // tambahkan class invalid-feedback setelah input
+                                input.after(feedbackElement);
+                            }
+                        }
+                    });
+            }
+
+            function deleteEmployee(employeeId) {
+                Swal.fire({
+                    title: 'Apakah kamu yakin?',
+                    text: 'Pegawai akan dihapus, kamu tidak bisa mengembalikannya lagi!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let url = "{{ route('api.employees.destroy', ':employeeId') }}";
+                        url = url.replace(':employeeId', employeeId);
+
+                        $.post(url, {
+                                _method: 'DELETE'
+                            })
+                            .done((response) => {
+                                toastr.success(response.message, 'Sukses');
+
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 1000);
+                            })
+                            .fail((error) => {
+                                toastr.error('Gagal menghapus pegawai', 'Error');
+                            });
+                    }
+                });
+            }
+
+            function openEditModal(id) {
+                // mengisi variabel employeeId dengan id yang dikirim dari tombol edit
+                employeeId = id;
+
+                // ambil data pegawai dari server
+                let url = `{{ route('api.employees.show', ':employeeId') }}`;
+                url = url.replace(':employeeId', employeeId);
+
+                // ambil data pegawai
+                $.get(url)
+                    .done((response) => {
+                        // isi form editModal dengan data pegawai
+                        $('#editName').val(response.data.name);
+                        $('#editAddress').val(response.data.address);
+                        $('#editEmail').val(response.data.email);
+                        $('#editPhoneNumber').val(response.data.phone_number);
+                        $('#editPosition').val(response.data.position);
+
+                        // tampilkan modal editModal
+                        $('#editModal').modal('show');
+                    })
+                    .fail((error) => {
+                        // tampilkan pesan error
+                        toastr.error('Gagal mengambil data pegawai', 'Error');
+                    });
+            }
+    </script>
+@endpush
