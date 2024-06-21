@@ -15,17 +15,14 @@ class EmployeeController extends Controller
     {
         $employees = Employee::orderBy('name', 'asc')->get();
         return response()->json([
-            'message'   => 'Berhasil menampilkan data pegawai',
+            'message'   => 'Successfully retrieved employee data',
             'data'      => $employees
         ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        // membuat validasi
+        // validation
         $validated = $request->validate([
             'name'          => 'required|string|min:3|max:255',
             'address'       => 'nullable|string|max:255',
@@ -35,30 +32,24 @@ class EmployeeController extends Controller
             'start_date'    => 'nullable|date'
         ]);
 
-        // membuat pegawai baru
+        // create new employee
         $employee = Employee::create($validated);
 
         return response()->json([
-            'message'   => 'Berhasil menambahkan pegawai baru',
+            'message'   => 'Successfully added new employee',
             'data'      => $employee
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $employee = Employee::find($id);
         return response()->json([
-            'message'   => 'Berhasil menampilkan detail pegawai',
+            'message'   => 'Successfully retrieved employee detail',
             'data'      => $employee
         ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
@@ -74,22 +65,20 @@ class EmployeeController extends Controller
         $employee->update($validated);
 
         return response()->json([
-            'message'   => 'Berhasil mengupdate data pegawai',
+            'message'   => 'Successfully updated employee data',
             'data'      => $employee
         ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $employee = Employee::find($id);
         $employee->delete();
 
         return response()->json([
-            'message'   => 'Berhasil menghapus data pegawai',
+            'message'   => 'Successfully deleted employee data',
             'data'      => $employee
         ], 200);
     }
+
 }

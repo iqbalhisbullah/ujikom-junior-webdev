@@ -67,7 +67,7 @@
         <div class="container d-flex flex-column align-items-center justify-content-center" data-aos="fade-up">
             <h1>Manage Employee Data Efficiently</h1>
             @if (Auth::check())
-                <a href="{{ route('login') }}" class="btn-get-started scrollto">Return To Activity</a>
+                <a href="{{ route('employee') }}" class="btn-get-started scrollto">Return To Activity</a>
                 <img src="assetss/img/hero-img.png" class="img-fluid hero-img" alt="" data-aos="zoom-in"
                     data-aos-delay="150">
             @else

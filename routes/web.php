@@ -8,9 +8,6 @@ Route::get('/', function () {
     return view('landing');
 })->name('landing');
 
-Route::get('/dashboard', function () {
-    return view('pages.main');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/profilee', function () {
     return view('pages.profile');

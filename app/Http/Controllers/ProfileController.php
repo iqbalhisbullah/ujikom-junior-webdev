@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Profile;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,6 +14,14 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
+    function index()
+    {
+        $profiles = Profile::orderBy('name')->get();
+        $data['profiles'] = $profiles;
+
+        return view('pages.user', $data);
+    }
+
     public function edit(Request $request): View
     {
         return view('profile.edit', [

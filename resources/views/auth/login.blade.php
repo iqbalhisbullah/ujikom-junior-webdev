@@ -25,7 +25,7 @@
                                     <p class="text-center small">Enter your email & password to login</p>
                                 </div>
                                 @include('dashboard.alert')
-                                <form class="row g-3 needs-validation" action="{{ route('login') }}" method="POST" novalidate>
+                                <form class="row g-3" action="{{ route('login') }}" method="POST">
                                     @csrf
                                     <div class="col-12">
                                         <label for="youremail" class="form-label">Email</label>

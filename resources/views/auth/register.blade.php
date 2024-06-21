@@ -25,7 +25,7 @@
                                     <p class="text-center small">Enter your personal details to create account</p>
                                 </div>
                                 @include('dashboard.alert')
-                                <form class="row g-3 needs-validation" action="{{ route('register') }}" method="POST" novalidate>
+                                <form class="row g-3" action="{{ route('register') }}" method="POST" novalidate>
                                     @csrf
                                     <div class="col-12">
                                         <label for="yourName" class="form-label">Your Name</label>
@@ -48,7 +48,7 @@
 
                                     <div class="col-12">
                                         <label for="yourPasswordconfirmation" class="form-label">Password Confirmation</label>
-                                        <input type="password_confirmation" name="password_confirmation" class="form-control" id="yourPasswordconfirmation"
+                                        <input type="password" name="password_confirmation" class="form-control" id="yourPasswordconfirmation"
                                             required>
                                         <div class="invalid-feedback">Please enter your password Confirmation!</div>
                                     </div>

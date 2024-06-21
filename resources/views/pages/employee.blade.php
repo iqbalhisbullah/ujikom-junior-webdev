@@ -145,10 +145,10 @@
 
 @endsection
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
-        let employeeId = null;
+<script>
+    let employeeId = null;
 
             // saat buka modal addModal kosongkan form, hapus class is-invalid dan invalid-feedback
             $('#addModal').on('show.bs.modal', function(e) {
@@ -236,7 +236,7 @@
                 $.post(url, data)
                     .done((response) => {
                         // tampilkan pesan sukses
-                        toastr.success(response.message, 'Sukses');
+                        toastr.success(response.message, 'Success');
 
                         // reload halaman setelah 3 detik
                         setTimeout(() => {
@@ -278,12 +278,12 @@
 
             function deleteEmployee(employeeId) {
                 Swal.fire({
-                    title: 'Apakah kamu yakin?',
-                    text: 'Pegawai akan dihapus, kamu tidak bisa mengembalikannya lagi!',
+                    title: 'Are you sure?',
+                    text: 'The employee will be deleted, you cannot revert this action!',
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel',
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -301,7 +301,7 @@
                                 }, 1000);
                             })
                             .fail((error) => {
-                                toastr.error('Gagal menghapus pegawai', 'Error');
+                                toastr.error('Failed to delete employee', 'Error');
                             });
                     }
                 });
@@ -330,8 +330,8 @@
                     })
                     .fail((error) => {
                         // tampilkan pesan error
-                        toastr.error('Gagal mengambil data pegawai', 'Error');
+                        toastr.error('Failed to fetch employee', 'Error');
                     });
             }
-    </script>
+</script>
 @endpush
