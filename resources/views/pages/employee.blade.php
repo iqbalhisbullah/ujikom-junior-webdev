@@ -32,7 +32,6 @@
                     <tr>
                         <td>{{ $employee->id }}</td>
                         <td>{{ $employee->name }}</td>
-                        <td>{{ $employee->name }}</td>
                         <td>{{ $employee->position }}</td>
                         <td>{{ $employee->phone_number }}</td>
                         <td>{{ $employee->email }}</td>
