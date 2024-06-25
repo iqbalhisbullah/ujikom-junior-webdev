@@ -12,10 +12,11 @@
     </div>
     <div class="iq-card-body">
         <div class="table-responsive">
-            <table id="employee-list-table" class="table table-striped table-bordered mt-4" role="grid"
+            <table id="employee-list-table" class="table mt-4 table-striped table-bordered" role="grid"
                 aria-describedby="employee-list-page-info">
                 <thead>
                     <tr class="table-dark">
+                        <th>Id</th>
                         <th>Name</th>
                         <th>Position</th>
                         <th>Phone Number</th>
@@ -28,6 +29,7 @@
                 <tbody>
                     @foreach ($employees as $employee)
                     <tr>
+                        <td>{{ $employee->name }}</td>
                         <td>{{ $employee->name }}</td>
                         <td>{{ $employee->position }}</td>
                         <td>{{ $employee->phone_number }}</td>
