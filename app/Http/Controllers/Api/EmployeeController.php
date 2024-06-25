@@ -29,6 +29,7 @@ class EmployeeController extends Controller
             'email'         => 'required|email|unique:employees,email',
             'phone_number'  => 'nullable|string|max:15',
             'position'      => 'nullable|string|max:255',
+            'Employee_Number'    => 'nullable|int|max:100',
             'start_date'    => 'nullable|date'
         ]);
 
