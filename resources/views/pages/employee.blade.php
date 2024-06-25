@@ -24,6 +24,7 @@
                         <th>Address</Address>
                         </th>
                         <th>Action</th>
+                        <td>Employee Number</td>
                     </tr>
                 </thead>
                 <tbody>
