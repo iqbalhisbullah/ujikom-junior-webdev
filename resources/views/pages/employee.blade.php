@@ -90,6 +90,10 @@
                             <label for="addAddress">Address</label>
                             <input required type="address" class="form-control" id="addAddress" name="address">
                         </div>
+                        <div class="form-group">
+                            <label for="addNumber">Employee Number</label>
+                            <input required type="number" class="form-control" id="addnumber" name="addnumber">
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
