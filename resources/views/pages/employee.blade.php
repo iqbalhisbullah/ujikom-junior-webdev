@@ -37,7 +37,7 @@
                         <td>{{ $employee->phone_number }}</td>
                         <td>{{ $employee->email }}</td>
                         <td>{{ $employee->address }}</td>
-                        <td>Employee Number</td>
+                        <td>{{ $employee->id }}</td>
                         <td>
                             <div class="flex align-items-center list-employee-action">
                                 <a onclick="openEditModal('{{ $employee->id }}')" data-toggle="tooltip"
